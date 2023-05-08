@@ -10,23 +10,24 @@ export const Books = (props) => {
 
   const searchBook = async (e) => {
     e.preventDefault();
+    const apiKey = process.env.REACT_APP_API_KEY;
     const data = await fetch(
-          `https://www.googleapis.com/books/v1/volumes?q=${searchField}&download=epub&key=AIzaSyCt9O7G_tanishfGgsebilGrRoyaPBSiN4`
+      `https://www.googleapis.com/books/v1/volumes?q=${searchField}&download=epub&key=${apiKey}`
     )
-    .then((res) => {
-      if (res.ok) {
-        console.log("SUCCESS");
-      } else {
-        console.log("FAILED");
-      }
-      return res.json();
-    })
-    .then((result) => {
-      console.log({ result });
-      setBooks(result.items);
-    })
-    .catch((Error) => console.log("ERROR"));
-      
+      .then((res) => {
+        if (res.ok) {
+          console.log("SUCCESS");
+        } else {
+          console.log("FAILED");
+        }
+        return res.json();
+      })
+      .then((result) => {
+        console.log({ result });
+        setBooks(result.items);
+      })
+      .catch((Error) => console.log("ERROR"));
+
   };
 
   const handleSearch = (e) => {
@@ -38,23 +39,23 @@ export const Books = (props) => {
   };
 
   let sortedBooks = [];
-      sortedBooks = books.sort((a, b) => {
-      if (sort === "Newest") {
-        return (
-          parseInt(b.volumeInfo.publishedDate) -
-          parseInt(a.volumeInfo.publishedDate)
-        );
-      } else if (sort === "Oldest") {
-        return (
-          parseInt(a.volumeInfo.publishedDate) -
-          parseInt(b.volumeInfo.publishedDate)
-        );
-      }
-      return sortedBooks;
-    })
-    
-    
-    
+  sortedBooks = books.sort((a, b) => {
+    if (sort === "Newest") {
+      return (
+        parseInt(b.volumeInfo.publishedDate) -
+        parseInt(a.volumeInfo.publishedDate)
+      );
+    } else if (sort === "Oldest") {
+      return (
+        parseInt(a.volumeInfo.publishedDate) -
+        parseInt(b.volumeInfo.publishedDate)
+      );
+    }
+    return sortedBooks;
+  })
+
+
+
   return (
     <div>
       <SearchArea
